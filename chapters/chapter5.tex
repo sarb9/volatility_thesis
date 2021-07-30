@@ -1,0 +1,283 @@
+\chapter{ارزیابی}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{مقدمه}
+در فصل‌های گذشته کارهای مرتبط انجام شده در این زمینه را معرفی کردیم. سپس به تشریح پیشنیاز‌ها و روش حل پیشنهادی برای حل مسئله پرداختیم. در ادامه وارد بخشی از جزییات پیاده سازی و ساخت مجموعه دادگان شدیم و نگاهی دقیق‌تر به این قسمت از پروژه داشتیم. در این فصل قصد داریم تا نتایج مدل‌نهایی را بر روی پنج رمزارز معرفی شده در فصل قبلی مشاهده و مقایسه کنیم و در نهایت به جمع‌بندی بپردازیم.
+
+\section{مجموعه دادگان استفاده‌شده}
+در این پروژه ما از سه مجموعه داده متین روتن تومیتوز، ای‌جی نیوز، و یلپ پولاریتی برای ارزیابی روش پیشنهادی‌مان استفاده کردیم. این مجموعه دادگان برای مساله دسته‌بندی تنظیم شده‌اند. در ادامه هر یک را به اختصار شرح می‌دهیم.
+
+\begin{table}[!h]
+	\caption{آمار و اطلاعات مربوط به دادگان روتن تومیتوز}
+	\label{tomatoDataset}
+	\begin{center}
+		\begin{tabular}{|c|c|}
+			\hline
+			\textbf{آماره} & \textbf{مقدار} \\
+			\hline
+			\hline
+			اندازه مجموعه آموزش
+			&   ۸۵۳۰  \\
+			\hline
+			اندازی مجموعه اعتبارسنجی
+			& ۱۰۶۶  \\
+			\hline
+			اندازه مجموعه آزمون
+			& ۱۰۶۶ \\
+			\hline
+			میانگین طول خبر
+			& ۲۰/۹۹  \\
+			\hline
+			
+		\end{tabular}
+	\end{center}
+\end{table}
+
+\begin{table}[!h]
+	\caption{مثالی از عملکرد مدل بر روی یک حمله مخرب در دادگان روتن تومیتوز.}
+	\label{tomatoex}
+	\begin{center}
+		\begin{tabular}{|c|c|}
+			\hline
+			
+			\textbf{جمله اصلی} &
+			
+			\makecell{\lr{this is a fascinating film because there is no clear-cut hero} \\ \lr{and no all-out villain.}} \\ 
+			\hline
+			
+			
+			\textbf{مثال مخرب} &
+			
+			\makecell{\lr{this is a \textcolor{red}{fajscinating} film because there is no clear-cut hero} \\ \lr{and no all-out villain.}} \\ 
+			\hline
+			
+			
+			\textbf{عملکرد مدل} &
+			
+			\makecell{\lr{this is a \textcolor{blue}{fascinating} film because there is no clear-cut hero} \\ \lr{and no all-out villain.}} \\ 
+			\hline
+			
+		\end{tabular}
+	\end{center}
+\end{table}
+
+\subsection{مجموعه دادگان روتن تومیتوز}
+دادگان این مجموعه از نظرات سایت تحلیل فیلم روتن تومیتوز\LTRfootnote{\lr{https://www.rottentomatoes.com/}} استخراج شده است. جدول \ref{tomatoDataset} مشخصات این مجموعه داده را نشان می‌دهد. این مجموعه دادگان برای مساله تحلیل احساسات بر روی دادگان متنی تنظیم شده است و دادگان آن دارای برچسب‌های "مثبت" و "منفی" هستند. در جدول \ref{tomatoex} یک نمونه از داده‌های این مجموعه دادگان و نحوه عملکرد مدل پیشنهادی ما بر روی آن را مشاهده می‌کنیم. 
+
+
+\begin{table}[!h]
+	\caption{آمار و اطلاعات مربوط به دادگان ای‌جی نیوز}
+	\label{agDataset}
+	\begin{center}
+		\begin{tabular}{|c|c|}
+			\hline
+			\textbf{آماره} & \textbf{مقدار} \\
+			\hline
+			\hline
+			اندازه مجموعه آموزش
+			&   ۱۲۰۰۰۰  \\
+			\hline
+			اندازی مجموعه اعتبارسنجی
+			& ۰  \\
+			\hline
+			اندازه مجموعه آزمون
+			& ۷۶۰۰ \\
+			\hline
+			میانگین طول خبر
+			& ۳۸/۴۱  \\
+			\hline
+			
+		\end{tabular}
+	\end{center}
+\end{table}
+
+\begin{table}[!h]
+	\caption{مثالی از عملکرد مدل بر روی یک حمله مخرب در دادگان ای‌جی نیوز.}
+	\label{agex}
+	\begin{center}
+		\begin{tabular}{|c|c|}
+			\hline
+			
+			\textbf{جمله اصلی} &
+			
+			\makecell{\lr{Indian state rolls out wireless broadband Government in} \\ \lr{South Indian state of Kerala sets up wireless kiosks as part} \\ \lr{of initiative to bridge digital divide.}} \\ 
+			\hline
+			
+		
+			\textbf{مثال مخرب} &
+			
+			\makecell{\lr{Indian state rolls out wireless \textcolor{red}{broadbdand} Government in} \\ \lr{South \textcolor{red}{Indvian} state of Kerala sets up wireless kiosks as part} \\ \lr{of initiative to bridge digital \textcolor{red}{divside}.}} \\ 
+			\hline
+			
+			
+			\textbf{عملکرد مدل} &
+			
+			\makecell{\lr{Indian state rolls out wireless \textcolor{blue}{broadbdand} Government in} \\ \lr{South \textcolor{blue}{indian} state of Kerala sets up wireless kiosk as part} \\ \lr{of initiative to bridge digital \textcolor{blue}{divide}.}} \\ 
+			\hline
+			
+		\end{tabular}
+	\end{center}
+\end{table}
+
+\subsection{مجموعه دادگان ای‌جی نیوز}
+مجموعه ای‌جی از بیش از ۱ میلیون متن خبری تشکیل شده است. این اخبار توسط موتور جست‌وجوی \lr{ComeToMyHead} و از بیش از ۲۰۰۰ منبع خبری جمع‌آوری شده‌اند. این موتور جست‌وجو مختص جست‌وجوی اخبار آکادمیک است و از سال ۲۰۰۴ مشغول جمع‌آوری اخبار است. از دادگان این مجموعه برای مسائل مختلف اعم از دسته‌بندی و خوشه‌بندی متن و مسائل مربوط به بازیابی اطلاعات استفاده شده است. مجموعه دادگان ا‌ی‌چی نیوز از این مجموعه توسط \cite{agnewsdata} به منظور استفاده در مساله دسته‌بندی متن معرفی شد. اخبار این مجموعه داده به چهار دسته "جهانی"، "ورزشی"، "تجارت"، و "فناوری و دانش" تقسیم می‌شوند. جدول \ref{agDataset} اطلاعات مربوط به این مجموعه داده را نشان می‌دهد. همچنین جدول \ref{agex} یک مثال از عملکرد مدل پیشنهادی ما بر روی یکی از خبرهای این مجموعه داده را نمایش می‌دهد.
+
+\begin{table}[!h]
+	\caption{آمار و اطلاعات مربوط به دادگان یلپ پولاریتی}
+	\label{yelpDataset}
+	\begin{center}
+		\begin{tabular}{|c|c|}
+			\hline
+			\textbf{آماره} & \textbf{مقدار} \\
+			\hline
+			\hline
+			اندازه مجموعه آموزش
+			&   ۵۶۰۰۰۰  \\
+			\hline
+			اندازی مجموعه اعتبارسنجی
+			& ۰  \\
+			\hline
+			اندازه مجموعه آزمون
+			& ۳۸۰۰۰ \\
+			\hline
+			میانگین طول خبر
+			& ۱35/63  \\
+			\hline
+			
+		\end{tabular}
+	\end{center}
+\end{table}
+
+\begin{table}[!h]
+	\caption{مثالی از عملکرد مدل بر روی یک حمله مخرب در دادگان یلپ پولاریتی.}
+	\label{yelpex}
+	\begin{center}
+		\begin{tabular}{|c|c|}
+			\hline
+			
+			\textbf{جمله اصلی} &
+			
+			\makecell{\lr{A friendly place with great seafood. It is cash only. The clam} \\ \lr{chowder was meaty and creamy. The onion rings were crispy and} \\ \lr{so was the fish. A nice place to see local flair.}} \\ 
+			\hline
+			
+			
+			\textbf{مثال مخرب} &
+			
+			\makecell{\lr{A \textcolor{red}{fwriendly} place with \textcolor{red}{gresat} seafood. It is cash only. The clam} \\ \lr{chowder was meaty and \textcolor{red}{crreamy}. The onion rings were crispy and} \\ \lr{so was the fish. A nice place to see local flair.}} \\ 
+			\hline
+			
+			
+			\textbf{عملکرد مدل} &
+			
+			\makecell{\lr{A \textcolor{blue}{friendly} place with \textcolor{blue}{great} seafood. It is cash only. The clam} \\ \lr{chowder was meaty and \textcolor{blue}{creamy}. The onion rings were crisp and} \\ \lr{so was the fish. A nice place to see local flair.}} \\ 
+			\hline
+			
+		\end{tabular}
+	\end{center}
+\end{table}
+
+\subsection{مجموعه دادگان یلپ پولاریتی}
+این مجموعه دادگان از تعداد بسیار زیادی تحلیل در سایت \lr{Yelp} و در یک چالش در سال ۲۰۱۵\LTRfootnote{Yelp Dataset Challenge 2015} تشکیل شده است. مجموعه دادگان یلپ پولاریتی توسط \cite{agnewsdata} از این دادگان استخراج شده است. این مجموعه داده برای مساله دسته‌بندی متن طراحی شده و دادگان آن دارای دو برچسب "مثبت" و "منفی" هستند. مشخصات این مجموعه داده در جدول \ref{yelpDataset} به نمایش درآمده و جدول \ref{yelpex} عملکرد مدل دفاعی ما برای یک مثال از این مجموعه داده را نشان می‌دهد.
+
+
+\section{معیار ارزیابی}
+برای ارزیابی مدل‌ها باید یک معیار ارزیابی مناسب که در حوزه یادگیری مخرب در متن استفاده شده است را معرفی کنیم.
+\subsection{دقت}
+معیار دقت\LTRfootnote{\lr{Accuracy}} معیاری‌ست که در ارزیابی مدل‌های دفاعی در برابر حملات مخرب بسیار به کار گرفته شده است. این معیار نسبت تعداد پیش‌بینی‌های صحیح به کل داده‌ها است. فرمول محاسبه این معیار در معادله \ref{eq:acc} آمده است.
+
+\begin{equation} \label{eq:acc}
+	Accuracy = \frac{TP + TN}{TP + TN + FP + FN}
+\end{equation}
+ 
+\section{نتایج}
+در این بخش قسمت داریم نتایجی که در قسمت پیاده‌سازی به آن رسیده‌ایم را تشریح کنیم. به این منظور ابتدا مدل‌های پایه‌ای\LTRfootnote{\lr{Baseline}} که مورد استفاده قرار گرفته‌اند را معرفی می‌کنیم و سپس نتایج مدل پیشنهادی‌مان را بررسی می‌کنیم.
+\subsection{مدل‌ پایه}
+در مقالات مرتبط با سیستم‌های دفاعی در برابر حملات مخرب متنی به دلیل عدم عمومیت دادگان استفاده ‌شده عموما مدل‌های پایه‌ای مورد استفاده قرار گرفته‌اند که پیاده‌سازی آن‌ها توسط خود نویسندگان مقدور بوده باشد
+\citep{jones2020robust, zhou2019learning, wang2019natural}.
+ به دلیل گستردگی نوع حملات مخرب، دادگان واحدی که شامل دادگان مخرب واحد نیز باشد وجود ندارد به همین دلیل مدل‌های پایه‌ای که در مقالات این حوزه مورد استفاده قرار می‌گیرند باید قابلیت اجراشدن بر روی دادگان همان مقالات را داشته باشند. به همین دلیل ما در این پروژه روش شبکه‌های بازگشتی نیمه‌کاراکتری را که توانستیم بر روی دادگان مورد استفاده خود اجرا کنیم برای مدل‌ پایه در نظر گرفتیم.
+\begin{itemize}
+	\item{\textbf{مدل شبکه‌های بازگشتی نیمه‌کاراکتری}}:
+	
+	همانطور که در فصل ۲ بررسی کردیم استفاده از مدل‌های شبکه بازگشتی نیمه‌کاراکتری یکی از روش‌های استفاده‌‌شده در جهت دفاع در برابر حملات مخرب متنی بوده است. به همین دلیل تصمیم گرفتیم از این مدل به عنوان یک مدل پایه در ازیابی‌مان استفاده کنیم. برای این کار از مدل معرفی‌شده در مقاله \cite{sakaguchi2017robsut} برای پیش‌بینی و تصحصح مثال‌های مخرب متنی استفاده کردیم\LTRfootnote{\lr{https://github.com/keisks/robsut-wrod-reocginiton}}.
+\end{itemize}
+
+\subsection{نتایج مدل پیشنهادی}
+در این بخش دقت‌های اندازه‌گیری شده روش پیشنهادی‌مان را بررسی می‌کنیم. همانطور که قبلا ذکر کردیم، برای بررسی عمکلرد مدل‌‌ها، سه دادگان یلپ پولاریتی، روتن تومیتوز و ای‌جی نیوز را انتخاب کردیم. برای مدل‌های اصلی دسته‌بند نیز از سه مدل برت، روبرتا و آلبرت که به صورت مدل‌های آماده در کتابخانه تکست‌اتک پیاده‌سازی شده‌اند استفاده کردیم. برای بررسی عملکرد دفاعی عملکرد مدل‌ها را بر روی مجموعه آزمون هر دادگان ارزیابی کردیم. برای این کار از هر مجموعه آزمون ۱۰۰۰ داده را انتخاب کردیم و بعد از مخرب‌سازی آن‌ها، عملکرد مدل‌های پایه و پیشنهادی را بر روی آن ۱۰۰۰ داده سنجیدیم. انتخاب ۱۰۰۰ داده به صورت تصادفی انجام شد و به این نکته توجه شد که از هر برچسب به میزان یکسان در ۱۰۰۰ داده نهایی وجود داشته باشد. جدول \ref{rotagtable} نتایج حاصل از عملکرد دفاعی مدل‌های پایه و مدل پیشنهادی‌مان بر روی دو دادگان روتن تومیتوز و ای‌جی‌ نیوز را نشان می‌دهد. جدول \ref{yelptable} نیز نتایج حاصل بر روی دادگان یلپ پولاریتی را نشان می‌دهد. همانطور که مشخص است عمکرد مدلی که بر اساس ویژگی پوشش واژه‌ها طراحی شده در تمام موارد از مدل پایه نیمه‌کاراکتری بهتر بوده است.
+
+
+\begin{table}[h]
+	\centering
+	\caption{نتایج حاصل بر اساس معیار دقت بر روی دو دادگان ای‌جی نیوز و روتن تومیتوز.}
+	\label{rotagtable}
+	\begin{tabular}{ |c||c|c|c|c|c|c|c| }
+		\hline
+		\multicolumn{8}{|c|}{\textbf{جدول نتایج}} \\
+		\hline
+		\multirow{2}{*}{مدل} & \multirow{2}{*}{حمله} & \multicolumn{3}{|c|}{ای‌جی نیوز} & \multicolumn{3}{|c|}{روتن تومیتوز}\\\cline{3-8}
+		
+		&  & بی‌دفاع & ‌کاراکتری & پوشش واژه‌ & بی‌دفاع & ‌کاراکتری & پوشش واژه‌ \\
+		\hline
+		\multirow{3}{*}{\makecell{برت}}
+		& اضافه & ۶۲/۰۰ & ۶۳/۶۰ & ۹۰/۵۰ & ۲۵/۷۰ & ‌۶۹/۳۲ & ۸۳/۰۲ \\
+		& حذف  & ۶۱/۵۰ & ‌۶۴/۶۰ & ۸۶/۰۱ & ۲۱/۹۵ & ‌۶۸/۱۹ & ۷۱/۳۸ \\
+		& جابه‌جایی  & ۶۳/۹۰ & ‌۶۶/۳۰ & ۸۹/۹۰ & ۴۷/۸۴ & ‌۷۱/۶۶ & ۷۹/۲۶\\\cline{3-8}
+		& بدون حمله  & 
+		\multicolumn{3}{|c|}{۹۳/۷۰} & \multicolumn{3}{|c|}{۸۵/۶۴} \\
+		\hline
+		\hline
+		\multirow{3}{*}{\makecell{روبرتا}}
+		& اضافه & ۶۵/۲۰ & ‌۶۴/۵۰ & ۸۸/۲۰ & ۳۰/۳۰ & ‌۷۴/۱۰ & ۸۴/۹۹ \\
+		& حذف  & ۶۴/۳۰ & ‌۶۵/۸۰ & ۸۵/۳۰ & ۲۱/۴۸ & ‌۷۱/۰۱ & ۷۳/۷۳ \\
+		& جابه‌جایی  & ۶۵/۹۰ & ‌۶۶/۹۰  & ۸۸/۵۰ & ۲۵/۴۲ & ‌۷۶/۰۷ & ۸۳/۳۰\\\cline{3-8}
+		& بدون حمله  & 
+		\multicolumn{3}{|c|}{۹۴/۳۰} & \multicolumn{3}{|c|}{۸۹/۰۲} \\
+		\hline
+		\hline
+		\multirow{3}{*}{\makecell{آلبرت}}
+		& اضافه & ۵۷/۲۰ & ‌۵۹/۲۰ & ۸۰/۰۰ & ۲۳/۱۷ & ‌۵۲/۱۵ & ۸۲/۲۷ \\
+		& حذف  & ۵۵/۶۰ & ‌۵۹/۲۰ & ۷۶/۰۰ & ۱۷/۶۳ & ‌۵۱/۷۸ & ۷۳/۵۴ \\
+		& جابه‌جایی  & ۵۹/۰۰ & ‌۶۱/۵۰  & ۸۰/۷۰ & ۲۰/۵۴ & ‌۵۳/۰۹ & ۸۰/۶۷\\\cline{3-8}
+		& بدون حمله  & 
+		\multicolumn{3}{|c|}{۸۵/۷۰} & \multicolumn{3}{|c|}{۸۵/۴۵} \\
+		\hline
+		
+	\end{tabular}
+\end{table}
+
+
+\begin{table}[h]
+	\centering
+	\caption{نتایج حاصل بر اساس معیار دقت بر روی دادگان یلپ پولاریتی.}
+	\label{yelptable}
+	\begin{tabular}{ |c||c|c|c|c| }
+		\hline
+		\multicolumn{5}{|c|}{\textbf{جدول نتایج}} \\
+		\hline
+		\multirow{2}{*}{مدل} & \multirow{2}{*}{حمله} & \multicolumn{3}{|c|}{یلپ پولاریتی}\\\cline{3-5}
+		
+		&  & بی‌دفاع & ‌کاراکتری & پوشش واژه‌ \\
+		\hline
+		\multirow{3}{*}{\makecell{برت}}
+		& اضافه & ۴۱/۰۶ & ‌۸۱/۴۰ & ۹۳/۷۰ \\
+		& حذف  & ۳۵/۸۰ & ‌۷۹/۹۰ & ۸۷/۱۰ \\
+		& جابه‌جایی  & ۴۲/۵۰ & ‌۸۳/۴۰ & ۹۲/۵۰\\\cline{3-5}
+		& بدون حمله  & 
+		\multicolumn{3}{|c|}{۹۷/۵۰}\\
+		\hline
+		\hline
+		\multirow{3}{*}{\makecell{آلبرت}}
+		& اضافه & ۳۳/۴۰ & ‌۷۹/۲۰ & ۹۵/۷۰ \\
+		& حذف  & ۲۹/۸۰ & ‌۷۶/۴۰ & ۸۶/۹۰ \\
+		& جابه‌جایی  & ۳۵/۱۰ & ‌۸۱/۷۰ & ۹۴/۰۰\\\cline{3-5}
+		& بدون حمله  & 
+		\multicolumn{3}{|c|}{۹۶/۹۰}\\
+		\hline
+		
+	\end{tabular}
+\end{table}
+
+
+\section{جمع‌بندی}
+در این فصل ابتدا به بررسی و توضیح ویژگی‌های دادگانی که در پروژه استفاده کرده‌ایم پرداختیم. در ادامه معیار ارزیابی‌ دقت که بر اساس آن می‌خواستیم نتایج کارمان را ارائه دهیم معرفی کردیم و در نهایت، نتایج مدل دفاعی‌مان را با مدل نیمه‌کاراکتری مقایسه کردیم. نتایج نشان دادند که عملکرد مدل ما بر روی هر سه دادگانی که مورد ارزیابی قرار گرفتند از مدل نیمه‌کاراکتری بهتر بوده است.
+
+%\subsection{تحلیل نتایج}
+
